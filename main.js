@@ -23,29 +23,32 @@ function createGalery(images) {
 }
 createGalery(gallery);
 
-const lightbox = document.querySelector(".lightbox");
-const prewImage = document.querySelector(".lightbox__image");
+const jsLightbox = document.querySelector(".js-lightbox");
+const origImage = document.querySelector(".lightbox__image");
+const button = document.querySelector(".lightbox__button");
 
 function onClick(event) {
   let checkClick = event.target;
-  if (!checkClick.classList.contains("li")) {
-    checkClick = checkClick.closest(".gallery__item");
-  } //проверяю куда я клацнул, нужно на LI
-  //добавляю лайтбокс
-  lightbox.classList.add("is-open");
-  const origImage = checkClick.querySelector(".gallery__image");
-  prewImage.src = origImage.dataset.source;
-  //заменяю ссылки на картинку
-  button.addEventListener('click', onClickBtn);
+  if (checkClick.classList.contains("gallery__image")) {
+    jsLightbox.classList.add("is-open");
+    origImage.src = checkClick.dataset.source;
+    button.addEventListener("click", onClickBtn);
+  }
 }
 
-const button = document.querySelector('.lightbox');
-
-function onClickBtn (event){
-  const checkBtn = event.target;
-  if(!checkBtn.classList.contains('lightbox__image')){
-    lightbox.classList.remove('is-open');
-    button.removeEventListener('click', onClickBtn);
+function onClickBtn(event) {
+  let checkBtn = event.target;
+  if (!checkBtn.classList.contains("lightbox__image")) {
+    jsLightbox.classList.remove("is-open");
+    origImage.src = "";
+    button.removeEventListener("click", onClickBtn);
   }
-  container.addEventListener("click", onClick);
+}
+const trtr = document.querySelector(".lightbox__content");
+trtr.addEventListener("click", funClickFree);
+
+function funClickFree(event) {
+  if (event.target === event.currentTarget) {
+    jsLightbox.classList.remove("is-open");
+  }
 }
