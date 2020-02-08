@@ -3,10 +3,15 @@
 import gallery from "./gallery-items.js";
 
 const container = document.querySelector(".js-gallery");
-container.addEventListener("click", onClick);
+const jsLightbox = document.querySelector(".js-lightbox");
+const origImage = document.querySelector(".lightbox__image");
+const button = document.querySelector(".lightbox__button");
+const greyBackGround = document.querySelector(".lightbox__content");
+const pressEsc = document.querySelector('body');
+
 
 function createGalery(images) {
-  const image = images.reduce(
+  const imageGallery = images.reduce(
     (item, img) =>
       item +
       `<li class="gallery__item">
@@ -19,20 +24,21 @@ function createGalery(images) {
     </li>`,
     ""
   );
-  return container.insertAdjacentHTML("afterbegin", image);
+  return container.insertAdjacentHTML("afterbegin", imageGallery);
 }
+
 createGalery(gallery);
 
-const jsLightbox = document.querySelector(".js-lightbox");
-const origImage = document.querySelector(".lightbox__image");
-const button = document.querySelector(".lightbox__button");
+container.addEventListener("click", onClick);
 
 function onClick(event) {
   let checkClick = event.target;
   if (checkClick.classList.contains("gallery__image")) {
     jsLightbox.classList.add("is-open");
-    origImage.src = checkClick.dataset.source;
+    origImage.setAttribute("src", checkClick.dataset.source);
     button.addEventListener("click", onClickBtn);
+    greyBackGround.addEventListener("click", closeModalClickBackGrount);
+    pressEsc.addEventListener('keydown', funcPressEsc);
   }
 }
 
@@ -40,15 +46,24 @@ function onClickBtn(event) {
   let checkBtn = event.target;
   if (!checkBtn.classList.contains("lightbox__image")) {
     jsLightbox.classList.remove("is-open");
-    origImage.src = "";
+    origImage.removeAttribute("src");
     button.removeEventListener("click", onClickBtn);
+    greyBackGround.removeEventListener("click", closeModalClickBackGrount);
+    pressEsc.removeEventListener('keydown', funcPressEsc);
   }
 }
-const trtr = document.querySelector(".lightbox__content");
-trtr.addEventListener("click", funClickFree);
 
-function funClickFree(event) {
+function closeModalClickBackGrount(event) {
   if (event.target === event.currentTarget) {
     jsLightbox.classList.remove("is-open");
+    origImage.removeAttribute("src");
+  }
+}
+
+
+function funcPressEsc(event){
+  if(event.keyCode === 27){
+    jsLightbox.classList.remove("is-open");
+    origImage.removeAttribute("src");
   }
 }
