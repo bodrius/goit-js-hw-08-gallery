@@ -7,8 +7,7 @@ const jsLightbox = document.querySelector(".js-lightbox");
 const origImage = document.querySelector(".lightbox__image");
 const button = document.querySelector(".lightbox__button");
 const greyBackGround = document.querySelector(".lightbox__content");
-const pressEsc = document.querySelector('body');
-
+const pressEsc = document.querySelector("body");
 
 function createGalery(images) {
   const imageGallery = images.reduce(
@@ -38,7 +37,7 @@ function onClick(event) {
     origImage.setAttribute("src", checkClick.dataset.source);
     button.addEventListener("click", onClickBtn);
     greyBackGround.addEventListener("click", closeModalClickBackGrount);
-    pressEsc.addEventListener('keydown', funcPressEsc);
+    pressEsc.addEventListener("keydown", funcPressEsc);
   }
 }
 
@@ -49,7 +48,7 @@ function onClickBtn(event) {
     origImage.removeAttribute("src");
     button.removeEventListener("click", onClickBtn);
     greyBackGround.removeEventListener("click", closeModalClickBackGrount);
-    pressEsc.removeEventListener('keydown', funcPressEsc);
+    pressEsc.removeEventListener("keydown", funcPressEsc);
   }
 }
 
@@ -60,9 +59,8 @@ function closeModalClickBackGrount(event) {
   }
 }
 
-
-function funcPressEsc(event){
-  if(event.keyCode === 27){
+function funcPressEsc(event) {
+  if (event.keyCode === 27) {
     jsLightbox.classList.remove("is-open");
     origImage.removeAttribute("src");
   }
